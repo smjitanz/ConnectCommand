@@ -1,0 +1,36 @@
+<?xml version= '1.0' encoding= 'UTF-8' ?>
+<wsdl:definitions
+     name="MeterJobRestReference"
+     targetNamespace="http://xmlns.oracle.com/ConnectCommandApplication/ConnectCommandProject/MeterJobRestReference"
+     xmlns:tns="http://xmlns.oracle.com/ConnectCommandApplication/ConnectCommandProject/MeterJobRestReference"
+     xmlns:inp1="http://TargetNamespace.com/MeterJobRestReference_createMeterJob_request"
+     xmlns:inp2="http://TargetNamespace.com/MeterGroupRestReference_createMeterGroup_response"
+     xmlns:plnk="http://docs.oasis-open.org/wsbpel/2.0/plnktype"
+     xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+    >
+    <plnk:partnerLinkType name="MeterJobRestReference">
+        <plnk:role name="MeterJobRestReferenceProvider" portType="tns:MeterJobRestReference_ptt"/>
+    </plnk:partnerLinkType>
+    <wsdl:types>
+        <xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+            <xsd:import namespace="http://TargetNamespace.com/MeterJobRestReference_createMeterJob_request"
+                 schemaLocation="../Schemas/MeterJobRequest.xsd"/>
+        </xsd:schema>
+        <xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+            <xsd:import namespace="http://TargetNamespace.com/MeterGroupRestReference_createMeterGroup_response"
+                 schemaLocation="../Schemas/EmptyJson.xsd"/>
+        </xsd:schema>
+    </wsdl:types>
+    <wsdl:message name="createMeterJob_inputMessage">
+        <wsdl:part name="request" element="inp1:JobNameRequest"/>
+    </wsdl:message>
+    <wsdl:message name="createMeterJob_outputMessage">
+        <wsdl:part name="reply" element="inp2:Root-Element"/>
+    </wsdl:message>
+    <wsdl:portType name="MeterJobRestReference_ptt">
+        <wsdl:operation name="createMeterJob">
+            <wsdl:input message="tns:createMeterJob_inputMessage"/>
+            <wsdl:output message="tns:createMeterJob_outputMessage"/>
+        </wsdl:operation>
+    </wsdl:portType>
+</wsdl:definitions>

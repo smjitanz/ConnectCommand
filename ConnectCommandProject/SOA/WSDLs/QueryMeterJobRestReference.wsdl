@@ -1,0 +1,36 @@
+<?xml version= '1.0' encoding= 'UTF-8' ?>
+<wsdl:definitions
+     name="QueryMeterJobRestReference"
+     targetNamespace="http://xmlns.oracle.com/ConnectCommandApplication/ConnectCommandProject/QueryMeterJobRestReference"
+     xmlns:tns="http://xmlns.oracle.com/ConnectCommandApplication/ConnectCommandProject/QueryMeterJobRestReference"
+     xmlns:inp1="http://xmlns.oracle.com/ConnectCommandApplication/ConnectCommandProject/QueryMeterJobRestReference"
+     xmlns:plnk="http://docs.oasis-open.org/wsbpel/2.0/plnktype"
+     xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+    >
+    <plnk:partnerLinkType name="QueryMeterJobRestReference">
+        <plnk:role name="QueryMeterJobRestReferenceProvider" portType="tns:QueryMeterJobRestReference_ptt"/>
+    </plnk:partnerLinkType>
+    <wsdl:types>
+        <schema xmlns="http://www.w3.org/2001/XMLSchema" targetNamespace="http://xmlns.oracle.com/ConnectCommandApplication/ConnectCommandProject/QueryMeterJobRestReference"
+             elementFormDefault="qualified">
+            <element name="empty">
+                <complexType/>
+            </element>
+        </schema>
+        <xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+            <xsd:include schemaLocation="../Schemas/cyanApi4.xsd"/>
+        </xsd:schema>
+    </wsdl:types>
+    <wsdl:message name="Rest_EmptyMessage">
+        <wsdl:part name="Empty" element="tns:empty"/>
+    </wsdl:message>
+    <wsdl:message name="queryMeterJob_outputMessage">
+        <wsdl:part name="reply" element="root"/>
+    </wsdl:message>
+    <wsdl:portType name="QueryMeterJobRestReference_ptt">
+        <wsdl:operation name="queryMeterJob">
+            <wsdl:input message="tns:Rest_EmptyMessage"/>
+            <wsdl:output message="tns:queryMeterJob_outputMessage"/>
+        </wsdl:operation>
+    </wsdl:portType>
+</wsdl:definitions>

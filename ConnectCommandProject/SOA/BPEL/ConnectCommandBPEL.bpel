@@ -1,0 +1,177 @@
+<?xml version = "1.0" encoding = "UTF-8" ?>
+<!--
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  Oracle JDeveloper BPEL Designer 
+  
+  Created: Wed Jun 17 11:56:57 PKT 2020
+  Author:  Pc
+  Type: BPEL 2.0 Process
+  Purpose: Synchronous BPEL Process
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+-->
+<process name="ConnectCommandBPEL"
+               targetNamespace="http://xmlns.oracle.com/ConnectCommandApplication/ConnectCommandProject/ConnectCommandBPEL"
+               xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
+               xmlns:client="http://xmlns.oracle.com/ConnectCommandApplication/ConnectCommandProject/ConnectCommandBPEL"
+               xmlns:ora="http://schemas.oracle.com/xpath/extension"
+               xmlns:ui="http://xmlns.oracle.com/soa/designer"
+               xmlns:bpelx="http://schemas.oracle.com/bpel/extension"
+         xmlns:bpel="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
+         xmlns:ns1="http://xmlns.oracle.com/ConnectCommandApplication/ConnectCommandProject/QueryMeterJobRestReference"
+         xmlns:ns2="http://xmlns.oracle.com/ConnectCommandApplication/ConnectCommandProject/MeterGroupRestReference"
+         xmlns:ns3="http://xmlns.oracle.com/ConnectCommandApplication/ConnectCommandProject/MeterJobRestReference"
+         xmlns:ns4="http://xmlns.oracle.com/ConnectCommandApplication/ConnectCommandProject/ManageMeterJobRestReference"
+         xmlns:ns5="http://www.cyanconnode.com/Api/cyan" xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+         xmlns:oraext="http://www.oracle.com/XSL/Transform/java/oracle.tip.pc.services.functions.ExtFunc"
+         xmlns:bpm="http://xmlns.oracle.com/bpmn20/extensions"
+         xmlns:xp20="http://www.oracle.com/XSL/Transform/java/oracle.tip.pc.services.functions.Xpath20"
+         xmlns:ess="http://xmlns.oracle.com/scheduler" xmlns:hwf="http://xmlns.oracle.com/bpel/workflow/xpath"
+         xmlns:xref="http://www.oracle.com/XSL/Transform/java/oracle.tip.xref.xpath.XRefXPathFunctions"
+         xmlns:dvm="http://www.oracle.com/XSL/Transform/java/oracle.tip.dvm.LookupValue"
+         xmlns:bpws="http://schemas.xmlsoap.org/ws/2003/03/business-process/"
+         xmlns:xdk="http://schemas.oracle.com/bpel/extension/xpath/function/xdk"
+         xmlns:ids="http://xmlns.oracle.com/bpel/services/IdentityService/xpath"
+         xmlns:ldap="http://schemas.oracle.com/xpath/extension/ldap"
+         xmlns:ns6="http://TargetNamespace.com/MeterJobRestReference_createMeterJob_request"
+         xmlns:ns7="http://TargetNamespace.com/ManageMeterJobRestReference_manageMeterJob_request">
+
+    <import ui:processWSDL="true" namespace="http://xmlns.oracle.com/ConnectCommandApplication/ConnectCommandProject/ConnectCommandBPEL" location="../WSDLs/ConnectCommandBPEL.wsdl" importType="http://schemas.xmlsoap.org/wsdl/"/>
+    <!-- 
+      ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        PARTNERLINKS                                                      
+        List of services participating in this BPEL process               
+      ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    --> 
+  <partnerLinks>
+    <!-- 
+      The 'client' role represents the requester of this service. It is 
+      used for callback. The location and correlation information associated
+      with the client role are automatically set using WS-Addressing.
+    -->
+    <partnerLink name="connectcommandbpel_client" partnerLinkType="client:ConnectCommandBPEL" myRole="ConnectCommandBPELProvider"/>
+    <partnerLink name="QueryMeterJobRestReference" partnerLinkType="ns1:QueryMeterJobRestReference"
+                 partnerRole="QueryMeterJobRestReferenceProvider"/>
+    <partnerLink name="MeterGroupRestReference" partnerLinkType="ns2:MeterGroupRestReference"
+                 partnerRole="MeterGroupRestReferenceProvider"/>
+    <partnerLink name="MeterJobRestReference" partnerLinkType="ns3:MeterJobRestReference"
+                 partnerRole="MeterJobRestReferenceProvider"/>
+    <partnerLink name="ManageMeterJobRestReference" partnerLinkType="ns4:ManageMeterJobRestReference"
+                 partnerRole="ManageMeterJobRestReferenceProvider"/>
+  </partnerLinks>
+
+  <!-- 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+      VARIABLES                                                        
+      List of messages and XML documents used within this BPEL process 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  -->
+  <variables>
+    <!-- Reference to the message passed as input during initiation -->
+    <variable name="inputVariable" messageType="client:ConnectCommandBPELRequestMessage"/>
+
+    <!-- Reference to the message that will be returned to the requester-->
+    <variable name="outputVariable" messageType="client:ConnectCommandBPELResponseMessage"/>
+    <variable name="invokeMeterGroup_InputVariable" messageType="ns2:createMeterGroup_inputMessage"/>
+    <variable name="invokeMeterGroup_OutputVariable" messageType="ns2:createMeterGroup_outputMessage"/>
+    <variable name="invokeMeterJob_InputVariable" messageType="ns3:createMeterJob_inputMessage"/>
+    <variable name="invokeMeterJob_OutputVariable" messageType="ns3:createMeterJob_outputMessage"/>
+    <variable name="invokeManageJob_InputVariable" messageType="ns4:manageMeterJob_inputMessage"/>
+    <variable name="invokeManageJob_OutputVariable" messageType="ns4:manageMeterJob_outputMessage"/>
+    <variable name="invokeQueryJob_InputVariable" messageType="ns1:Rest_EmptyMessage"/>
+    <variable name="invokeQueryJob_OutputVariable" messageType="ns1:queryMeterJob_outputMessage"/>
+    <variable name="manageJobUrl" type="xsd:string"/>
+    <variable name="queryJobUrl" type="xsd:string"/>
+  </variables>
+
+  <!-- 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+     ORCHESTRATION LOGIC                                               
+     Set of activities coordinating the flow of messages across the    
+     services integrated within this business process                  
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  -->
+  <sequence name="main">
+
+    <!-- Receive input from requestor. (Note: This maps to operation defined in ConnectCommandBPEL.wsdl) -->
+    <receive name="receiveInput" partnerLink="connectcommandbpel_client" portType="client:ConnectCommandBPEL" operation="process" variable="inputVariable" createInstance="yes"/>
+    <assign name="InputAssignments">
+      <copy>
+        <from>$inputVariable.payload/client:input</from>
+        <to expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">$invokeMeterGroup_InputVariable.request/ns5:meters</to>
+      </copy>
+      <copy>
+        <from>ora:getPreference("groupName")</from>
+        <to expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">$invokeMeterGroup_InputVariable.request/ns5:meterGroupName</to>
+      </copy>
+      <copy>
+        <from>"STATIC"</from>
+        <to expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">$invokeMeterGroup_InputVariable.request/ns5:meterGroupType</to>
+      </copy>
+      <copy>
+        <from>ora:getPreference("groupName")</from>
+        <to expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">$invokeMeterJob_InputVariable.request/ns6:meterGroup</to>
+      </copy>
+      <copy>
+        <from>ora:getPreference("jobName")</from>
+        <to expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">$invokeMeterJob_InputVariable.request/ns6:jobName</to>
+      </copy>
+      <copy>
+        <from>"METER_COMMAND_SET"</from>
+        <to expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">$invokeMeterJob_InputVariable.request/ns6:jobType</to>
+      </copy>
+      <copy>
+        <from>"DISCONNECTOR_CONTROL"</from>
+        <to expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">$invokeMeterJob_InputVariable.request/ns6:jobConfiguration/ns6:commands/ns6:type</to>
+      </copy>
+      <copy>
+        <from>"CONNECT"</from>
+        <to expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">$invokeMeterJob_InputVariable.request/ns6:jobConfiguration/ns6:commands/ns6:controlRequest</to>
+      </copy>
+      <copy>
+        <from>concat(ora:getPreference("ManageJobUrl"),ora:getPreference("jobName"))</from>
+        <to expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">$manageJobUrl</to>
+      </copy>
+      <copy>
+        <from>"START"</from>
+        <to expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">$invokeManageJob_InputVariable.request/ns7:instruction</to>
+      </copy>
+      <copy>
+        <from>concat(ora:getPreference("QueryJobUrl"),ora:getPreference("jobName"))</from>
+        <to expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">$queryJobUrl</to>
+      </copy>
+    </assign>
+    <invoke name="invokeMeterGroup" bpelx:invokeAsDetail="no" partnerLink="MeterGroupRestReference"
+            portType="ns2:MeterGroupRestReference_ptt" operation="createMeterGroup"
+            inputVariable="invokeMeterGroup_InputVariable" outputVariable="invokeMeterGroup_OutputVariable"/>
+    <invoke name="invokeMeterJob" bpelx:invokeAsDetail="no" partnerLink="MeterJobRestReference"
+            portType="ns3:MeterJobRestReference_ptt" operation="createMeterJob"
+            inputVariable="invokeMeterJob_InputVariable" outputVariable="invokeMeterJob_OutputVariable"/>
+    <invoke name="invokeManageJob" partnerLink="ManageMeterJobRestReference"
+            portType="ns4:ManageMeterJobRestReference_ptt" operation="manageMeterJob"
+            inputVariable="invokeManageJob_InputVariable" outputVariable="invokeManageJob_OutputVariable"
+            bpelx:invokeAsDetail="no">
+      <bpelx:toProperties>
+        <bpelx:toProperty name="rest.binding.requestURI" variable="manageJobUrl"/>
+      </bpelx:toProperties>
+    </invoke>
+    <repeatUntil name="RepeatUntilJobCompleted">
+      <invoke name="invokeQueryJob" partnerLink="QueryMeterJobRestReference"
+              portType="ns1:QueryMeterJobRestReference_ptt" operation="queryMeterJob"
+              inputVariable="invokeQueryJob_InputVariable" outputVariable="invokeQueryJob_OutputVariable"
+              bpelx:invokeAsDetail="no">
+        <bpelx:toProperties>
+          <bpelx:toProperty name="rest.binding.requestURI" variable="queryJobUrl"/>
+        </bpelx:toProperties>
+      </invoke>
+      <condition expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">$invokeQueryJob_OutputVariable.reply/status = "COMPLETE" or $invokeQueryJob_OutputVariable.reply/status = "FINISHED"</condition>
+    </repeatUntil>
+    <assign name="OutputAssignments">
+      <copy>
+        <from>$invokeQueryJob_OutputVariable.reply/status</from>
+        <to expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">$outputVariable.payload/client:result</to>
+      </copy>
+    </assign>
+    <!-- Generate reply to synchronous request -->
+    <reply name="replyOutput" partnerLink="connectcommandbpel_client" portType="client:ConnectCommandBPEL" operation="process" variable="outputVariable"/>
+  </sequence>
+</process>

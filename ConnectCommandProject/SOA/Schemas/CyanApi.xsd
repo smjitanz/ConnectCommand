@@ -1,0 +1,35 @@
+<?xml version= '1.0' encoding= 'UTF-8' ?>
+<schema xmlns="http://www.w3.org/2001/XMLSchema" xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+     xmlns:qt="http://www.cyanconnode.com/Api/cyan" targetNamespace="http://www.cyanconnode.com/Api/cyan"
+     elementFormDefault="qualified">
+    <annotation>
+        <documentation xml:lang="en">Cyan Api</documentation>
+    </annotation>
+    <element name="SearchMeterRequest" type="qt:SearchMeterRequestType"/>
+    <complexType name="SearchMeterRequestType">
+        <sequence>
+            <element name="startId" type="int"/>
+            <element name="count" type="int"/>
+        </sequence>
+    </complexType>
+    <element name="SearchMeterResponse" type="qt:SearchMeterResponseType"/>
+    <complexType name="SearchMeterResponseType">
+        <sequence>
+            <element name="meterId" type="string"/>
+            <element name="nodeId" type="string"/>
+            <element name="vendor" type="string"/>
+            <element name="firmwareVersion" type="string"/>
+            <element name="hardwareVersion" type="string"/>
+            <element name="createTime" type="string"/>
+            <element name="updateTime" type="string"/>
+        </sequence>
+    </complexType>
+    <element name="MeterGroupRequest" type="qt:MeterGroupRequestType"/>
+    <complexType name="MeterGroupRequestType">
+        <sequence>
+            <element name="meterGroupName" type="string"/>
+            <element name="meterGroupType" type="string"/>
+            <element name="meters" type="string" minOccurs="0" maxOccurs="unbounded"/>
+        </sequence>
+    </complexType>
+</schema>
