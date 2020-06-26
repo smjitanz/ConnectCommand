@@ -33,7 +33,10 @@
          xmlns:ids="http://xmlns.oracle.com/bpel/services/IdentityService/xpath"
          xmlns:ldap="http://schemas.oracle.com/xpath/extension/ldap"
          xmlns:ns6="http://TargetNamespace.com/MeterJobRestReference_createMeterJob_request"
-         xmlns:ns7="http://TargetNamespace.com/ManageMeterJobRestReference_manageMeterJob_request">
+         xmlns:ns7="http://TargetNamespace.com/ManageMeterJobRestReference_manageMeterJob_request"
+         xmlns:ns8="http://xmlns.oracle.com/ConnectCommandApplication/ConnectCommandProject/JobStatusRestReference"
+         xmlns:ns9="http://TargetNamespace.com/JobStatusRestReference_StatusForJob_request"
+         xmlns:ns10="http://TargetNamespace.com/JobStatusRestReference_StatusForJob_response">
   <import namespace="http://schemas.oracle.com/bpel/extension" location="../WSDLs/RuntimeFault.wsdl"
           importType="http://schemas.xmlsoap.org/wsdl/"/>
   <import ui:processWSDL="true" namespace="http://xmlns.oracle.com/ConnectCommandApplication/ConnectCommandProject/ConnectCommandBPEL" location="../WSDLs/ConnectCommandBPEL.wsdl" importType="http://schemas.xmlsoap.org/wsdl/"/>
@@ -58,6 +61,8 @@
                  partnerRole="MeterJobRestReferenceProvider"/>
     <partnerLink name="ManageMeterJobRestReference" partnerLinkType="ns4:ManageMeterJobRestReference"
                  partnerRole="ManageMeterJobRestReferenceProvider"/>
+    <partnerLink name="JobStatusRestReference" partnerLinkType="ns8:JobStatusRestReference"
+                 partnerRole="JobStatusRestReferenceProvider"/>
   </partnerLinks>
 
   <!-- 
@@ -83,6 +88,10 @@
     <variable name="manageJobUrl" type="xsd:string"/>
     <variable name="queryJobUrl" type="xsd:string"/>
     <variable name="ReplyError_OutputVariable" messageType="client:ConnectCommandBPELResponseMessage"/>
+    <variable name="InvokeJobStatus_InputVariable" messageType="ns8:StatusForJob_inputMessage"/>
+    <variable name="InvokeJobStatus_OutputVariable" messageType="ns8:StatusForJob_outputMessage"/>
+    <variable name="jobStatusUrl" type="xsd:string"/>
+    <variable name="jobStatus" type="xsd:string"/>
   </variables>
   <faultHandlers>
     <catchAll>
@@ -154,7 +163,29 @@
         <from>concat(ora:getPreference("QueryJobUrl"),ora:getPreference("jobName"))</from>
         <to expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">$queryJobUrl</to>
       </copy>
+      <copy>
+        <from>"Successful"</from>
+        <to expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">$outputVariable.payload/client:result</to>
+      </copy>
+      <copy>
+        <from>ora:getFlowId()</from>
+        <to expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">$outputVariable.payload/client:flowId</to>
+      </copy>
+      <copy>
+        <from>1</from>
+        <to expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">$InvokeJobStatus_InputVariable.request/ns9:startId</to>
+      </copy>
+      <copy>
+        <from>1</from>
+        <to expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">$InvokeJobStatus_InputVariable.request/ns9:count</to>
+      </copy>
+      <copy>
+        <from>concat(ora:getPreference("JobStatusUrl"),ora:getPreference("jobName"))</from>
+        <to expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">$jobStatusUrl</to>
+      </copy>
     </assign>
+    <reply name="replyOutput" partnerLink="connectcommandbpel_client" portType="client:ConnectCommandBPEL"
+           operation="process" variable="outputVariable"/>
     <invoke name="invokeMeterGroup" bpelx:invokeAsDetail="no" partnerLink="MeterGroupRestReference"
             portType="ns2:MeterGroupRestReference_ptt" operation="createMeterGroup"
             inputVariable="invokeMeterGroup_InputVariable" outputVariable="invokeMeterGroup_OutputVariable"/>
@@ -170,23 +201,32 @@
       </bpelx:toProperties>
     </invoke>
     <repeatUntil name="RepeatUntilJobCompleted">
-      <invoke name="invokeQueryJob" partnerLink="QueryMeterJobRestReference"
-              portType="ns1:QueryMeterJobRestReference_ptt" operation="queryMeterJob"
-              inputVariable="invokeQueryJob_InputVariable" outputVariable="invokeQueryJob_OutputVariable"
-              bpelx:invokeAsDetail="no">
-        <bpelx:toProperties>
-          <bpelx:toProperty name="rest.binding.requestURI" variable="queryJobUrl"/>
-        </bpelx:toProperties>
-      </invoke>
+      <sequence name="Sequence1">
+        <invoke name="invokeQueryJob" partnerLink="QueryMeterJobRestReference"
+                portType="ns1:QueryMeterJobRestReference_ptt" operation="queryMeterJob"
+                inputVariable="invokeQueryJob_InputVariable" outputVariable="invokeQueryJob_OutputVariable"
+                bpelx:invokeAsDetail="no">
+          <bpelx:toProperties>
+            <bpelx:toProperty name="rest.binding.requestURI" variable="queryJobUrl"/>
+          </bpelx:toProperties>
+        </invoke>
+      </sequence>
       <condition expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">$invokeQueryJob_OutputVariable.reply/status = "COMPLETE" or $invokeQueryJob_OutputVariable.reply/status = "FINISHED"</condition>
     </repeatUntil>
-    <assign name="OutputAssignments">
+    <!-- Generate reply to synchronous request -->
+    <invoke name="InvokeJobStatus" partnerLink="JobStatusRestReference"
+            portType="ns8:JobStatusRestReference_ptt" operation="StatusForJob"
+            inputVariable="InvokeJobStatus_InputVariable" outputVariable="InvokeJobStatus_OutputVariable"
+            bpelx:invokeAsDetail="no">
+      <bpelx:toProperties>
+        <bpelx:toProperty name="rest.binding.requestURI" variable="jobStatusUrl"/>
+      </bpelx:toProperties>
+    </invoke>
+    <assign name="AssignOutput">
       <copy>
-        <from>$invokeQueryJob_OutputVariable.reply/status</from>
-        <to expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">$outputVariable.payload/client:result</to>
+        <from>$InvokeJobStatus_OutputVariable.reply/ns10:meters/ns10:status</from>
+        <to expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">$jobStatus</to>
       </copy>
     </assign>
-    <!-- Generate reply to synchronous request -->
-    <reply name="replyOutput" partnerLink="connectcommandbpel_client" portType="client:ConnectCommandBPEL" operation="process" variable="outputVariable"/>
   </sequence>
 </process>

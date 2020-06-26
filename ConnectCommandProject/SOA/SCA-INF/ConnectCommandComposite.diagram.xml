@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <dgm:gDiagram xmlns:dgm="http://xmlns.oracle.com/sca/soadgm">
     <dgm:gService name="connectcommandbpel_client_ep">
-        <dgm:body borderWidth="2" arcRad="20" X="21" Y="192" width="137" height="84">
+        <dgm:body borderWidth="2" arcRad="20" X="21" Y="238" width="137" height="84">
             <dgm:borderColor r="153" g="153" b="153"/>
             <dgm:bgColor r="255" g="255" b="255"/>
         </dgm:body>
-        <dgm:shadow arcRad="20" X="11" Y="185" width="156" height="98">
+        <dgm:shadow arcRad="20" X="11" Y="231" width="156" height="98">
             <dgm:bgColor r="196" g="228" b="240"/>
         </dgm:shadow>
         <dgm:outputPort name="connectcommandbpel_client_ep" X="127" Y="0" diameter="20" imageURI="oracle/tip/tools/ide/fabric/resource/image/visuals_rd1/servicereference.png" interface="http://xmlns.oracle.com/ConnectCommandApplication/ConnectCommandProject/ConnectCommandBPEL#wsdl.interface(ConnectCommandBPEL)"/>
@@ -15,68 +15,87 @@
         </dgm:operations>
     </dgm:gService>
     <dgm:gReference name="MeterGroupRestReference">
-        <dgm:body borderWidth="2" arcRad="20" X="439" Y="144" width="136" height="84">
+        <dgm:body borderWidth="2" arcRad="20" X="768" Y="144" width="136" height="84">
             <dgm:borderColor r="153" g="153" b="153"/>
             <dgm:bgColor r="255" g="255" b="255"/>
         </dgm:body>
-        <dgm:shadow arcRad="20" X="429" Y="137" width="156" height="98">
+        <dgm:shadow arcRad="20" X="758" Y="137" width="156" height="98">
             <dgm:bgColor r="196" g="228" b="240"/>
         </dgm:shadow>
         <dgm:inputPort name="MeterGroupRestReference" X="-10" Y="0" diameter="20" imageURI="oracle/tip/tools/ide/fabric/resource/image/visuals_rd1/servicereference.png" interface="http://xmlns.oracle.com/ConnectCommandApplication/ConnectCommandProject/MeterGroupRestReference#wsdl.interface(MeterGroupRestReference_ptt)"/>
         <dgm:nodeIcon URI="/oracle/tip/tools/ide/adapters/designtime/adapter/images/RestAdapterService20x20px.png" X="27" Y="4" width="20" height="20"/>
+        <dgm:policyIcon URI="oracle/tip/tools/ide/fabric/resource/image/visuals_rd1/locked_12x12.png" X="118" Y="8" width="12" height="12"/>
         <dgm:operations>
             <dgm:item>createMeterGroup</dgm:item>
         </dgm:operations>
     </dgm:gReference>
     <dgm:gReference name="MeterJobRestReference">
-        <dgm:body borderWidth="2" arcRad="20" X="439" Y="262" width="136" height="84">
+        <dgm:body borderWidth="2" arcRad="20" X="768" Y="262" width="136" height="84">
             <dgm:borderColor r="153" g="153" b="153"/>
             <dgm:bgColor r="255" g="255" b="255"/>
         </dgm:body>
-        <dgm:shadow arcRad="20" X="429" Y="255" width="156" height="98">
+        <dgm:shadow arcRad="20" X="758" Y="255" width="156" height="98">
             <dgm:bgColor r="196" g="228" b="240"/>
         </dgm:shadow>
         <dgm:inputPort name="MeterJobRestReference" X="-10" Y="0" diameter="20" imageURI="oracle/tip/tools/ide/fabric/resource/image/visuals_rd1/servicereference.png" interface="http://xmlns.oracle.com/ConnectCommandApplication/ConnectCommandProject/MeterJobRestReference#wsdl.interface(MeterJobRestReference_ptt)"/>
         <dgm:nodeIcon URI="/oracle/tip/tools/ide/adapters/designtime/adapter/images/RestAdapterService20x20px.png" X="27" Y="4" width="20" height="20"/>
+        <dgm:policyIcon URI="oracle/tip/tools/ide/fabric/resource/image/visuals_rd1/locked_12x12.png" X="118" Y="8" width="12" height="12"/>
         <dgm:operations>
             <dgm:item>createMeterJob</dgm:item>
         </dgm:operations>
     </dgm:gReference>
     <dgm:gReference name="ManageMeterJobRestReference">
-        <dgm:body borderWidth="2" arcRad="20" X="439" Y="380" width="136" height="84">
+        <dgm:body borderWidth="2" arcRad="20" X="768" Y="380" width="136" height="84">
             <dgm:borderColor r="153" g="153" b="153"/>
             <dgm:bgColor r="255" g="255" b="255"/>
         </dgm:body>
-        <dgm:shadow arcRad="20" X="429" Y="373" width="156" height="98">
+        <dgm:shadow arcRad="20" X="758" Y="373" width="156" height="98">
             <dgm:bgColor r="196" g="228" b="240"/>
         </dgm:shadow>
         <dgm:inputPort name="ManageMeterJobRestReference" X="-10" Y="0" diameter="20" imageURI="oracle/tip/tools/ide/fabric/resource/image/visuals_rd1/servicereference.png" interface="http://xmlns.oracle.com/ConnectCommandApplication/ConnectCommandProject/ManageMeterJobRestReference#wsdl.interface(ManageMeterJobRestReference_ptt)"/>
         <dgm:nodeIcon URI="/oracle/tip/tools/ide/adapters/designtime/adapter/images/RestAdapterService20x20px.png" X="27" Y="4" width="20" height="20"/>
+        <dgm:policyIcon URI="oracle/tip/tools/ide/fabric/resource/image/visuals_rd1/locked_12x12.png" X="118" Y="8" width="12" height="12"/>
         <dgm:operations>
             <dgm:item>manageMeterJob</dgm:item>
         </dgm:operations>
     </dgm:gReference>
     <dgm:gReference name="QueryMeterJobRestReference">
-        <dgm:body borderWidth="2" arcRad="20" X="439" Y="26" width="136" height="84">
+        <dgm:body borderWidth="2" arcRad="20" X="768" Y="26" width="136" height="84">
             <dgm:borderColor r="153" g="153" b="153"/>
             <dgm:bgColor r="255" g="255" b="255"/>
         </dgm:body>
-        <dgm:shadow arcRad="20" X="429" Y="19" width="156" height="98">
+        <dgm:shadow arcRad="20" X="758" Y="19" width="156" height="98">
             <dgm:bgColor r="196" g="228" b="240"/>
         </dgm:shadow>
         <dgm:inputPort name="QueryMeterJobRestReference" X="-10" Y="0" diameter="20" imageURI="oracle/tip/tools/ide/fabric/resource/image/visuals_rd1/servicereference.png" interface="http://xmlns.oracle.com/ConnectCommandApplication/ConnectCommandProject/QueryMeterJobRestReference#wsdl.interface(QueryMeterJobRestReference_ptt)"/>
         <dgm:nodeIcon URI="/oracle/tip/tools/ide/adapters/designtime/adapter/images/RestAdapterService20x20px.png" X="27" Y="4" width="20" height="20"/>
+        <dgm:policyIcon URI="oracle/tip/tools/ide/fabric/resource/image/visuals_rd1/locked_12x12.png" X="118" Y="8" width="12" height="12"/>
         <dgm:operations>
             <dgm:item>queryMeterJob</dgm:item>
         </dgm:operations>
     </dgm:gReference>
+    <dgm:gReference name="JobStatusRestReference">
+        <dgm:body borderWidth="2" arcRad="20" X="768" Y="498" width="136" height="84">
+            <dgm:borderColor r="153" g="153" b="153"/>
+            <dgm:bgColor r="255" g="255" b="255"/>
+        </dgm:body>
+        <dgm:shadow arcRad="20" X="758" Y="491" width="156" height="98">
+            <dgm:bgColor r="196" g="228" b="240"/>
+        </dgm:shadow>
+        <dgm:inputPort name="JobStatusRestReference" X="-10" Y="0" diameter="20" imageURI="oracle/tip/tools/ide/fabric/resource/image/visuals_rd1/servicereference.png" interface="http://xmlns.oracle.com/ConnectCommandApplication/ConnectCommandProject/JobStatusRestReference#wsdl.interface(JobStatusRestReference_ptt)"/>
+        <dgm:nodeIcon URI="/oracle/tip/tools/ide/adapters/designtime/adapter/images/RestAdapterService20x20px.png" X="27" Y="4" width="20" height="20"/>
+        <dgm:policyIcon URI="oracle/tip/tools/ide/fabric/resource/image/visuals_rd1/locked_12x12.png" X="118" Y="8" width="12" height="12"/>
+        <dgm:operations>
+            <dgm:item>StatusForJob</dgm:item>
+        </dgm:operations>
+    </dgm:gReference>
     <dgm:gComponent name="ConnectCommandBPEL">
-        <dgm:body borderWidth="2" arcRad="20" X="226" Y="177" width="130" height="136">
+        <dgm:body borderWidth="2" arcRad="20" X="398" Y="223" width="130" height="161">
             <dgm:borderColor r="69" g="113" b="140"/>
             <dgm:lightBgColor r="166" g="208" b="230"/>
             <dgm:darkBgColor r="99" g="162" b="201"/>
         </dgm:body>
-        <dgm:shadow arcRad="20" X="216" Y="170" width="150" height="152">
+        <dgm:shadow arcRad="20" X="388" Y="216" width="150" height="177">
             <dgm:bgColor r="196" g="228" b="240"/>
         </dgm:shadow>
         <dgm:inputPort name="connectcommandbpel_client" X="-10" Y="15" diameter="20" imageURI="oracle/tip/tools/ide/fabric/resource/image/visuals_rd1/servicereference.png" interface="http://xmlns.oracle.com/ConnectCommandApplication/ConnectCommandProject/ConnectCommandBPEL#wsdl.interface(ConnectCommandBPEL)"/>
@@ -84,38 +103,46 @@
         <dgm:outputPort name="MeterGroupRestReference" X="120" Y="40" diameter="20" imageURI="oracle/tip/tools/ide/fabric/resource/image/visuals_rd1/servicereference.png" interface="http://xmlns.oracle.com/ConnectCommandApplication/ConnectCommandProject/MeterGroupRestReference#wsdl.interface(MeterGroupRestReference_ptt)"/>
         <dgm:outputPort name="MeterJobRestReference" X="120" Y="65" diameter="20" imageURI="oracle/tip/tools/ide/fabric/resource/image/visuals_rd1/servicereference.png" interface="http://xmlns.oracle.com/ConnectCommandApplication/ConnectCommandProject/MeterJobRestReference#wsdl.interface(MeterJobRestReference_ptt)"/>
         <dgm:outputPort name="ManageMeterJobRestReference" X="120" Y="90" diameter="20" imageURI="oracle/tip/tools/ide/fabric/resource/image/visuals_rd1/servicereference.png" interface="http://xmlns.oracle.com/ConnectCommandApplication/ConnectCommandProject/ManageMeterJobRestReference#wsdl.interface(ManageMeterJobRestReference_ptt)"/>
+        <dgm:outputPort name="JobStatusRestReference" X="120" Y="115" diameter="20" imageURI="oracle/tip/tools/ide/fabric/resource/image/visuals_rd1/servicereference.png" interface="http://xmlns.oracle.com/ConnectCommandApplication/ConnectCommandProject/JobStatusRestReference#wsdl.interface(JobStatusRestReference_ptt)"/>
         <dgm:nodeIcon URI="/oracle/tip/tools/ide/bpel/shared/plugins/resources/images/soa/process_20x20.png" X="10" Y="4" width="20" height="20"/>
     </dgm:gComponent>
     <dgm:gWireLink source="connectcommandbpel_client_ep" target="ConnectCommandBPEL/connectcommandbpel_client" width="2">
-        <dgm:gSegment X1="168" Y1="202" X2="216" Y2="202"/>
+        <dgm:gSegment X1="168" Y1="248" X2="388" Y2="248"/>
         <dgm:baseColor r="153" g="153" b="153"/>
         <dgm:selectedColor r="49" g="106" b="196"/>
     </dgm:gWireLink>
     <dgm:gWireLink source="ConnectCommandBPEL/QueryMeterJobRestReference" target="QueryMeterJobRestReference" width="2">
-        <dgm:gSegment X1="366" Y1="202" X2="390" Y2="202"/>
-        <dgm:gSegment X1="390" Y1="202" X2="390" Y2="36"/>
-        <dgm:gSegment X1="390" Y1="36" X2="429" Y2="36"/>
+        <dgm:gSegment X1="538" Y1="248" X2="562" Y2="248"/>
+        <dgm:gSegment X1="562" Y1="248" X2="562" Y2="36"/>
+        <dgm:gSegment X1="562" Y1="36" X2="758" Y2="36"/>
         <dgm:baseColor r="153" g="153" b="153"/>
         <dgm:selectedColor r="49" g="106" b="196"/>
     </dgm:gWireLink>
     <dgm:gWireLink source="ConnectCommandBPEL/MeterGroupRestReference" target="MeterGroupRestReference" width="2">
-        <dgm:gSegment X1="366" Y1="227" X2="405" Y2="227"/>
-        <dgm:gSegment X1="405" Y1="227" X2="405" Y2="154"/>
-        <dgm:gSegment X1="405" Y1="154" X2="429" Y2="154"/>
+        <dgm:gSegment X1="538" Y1="273" X2="577" Y2="273"/>
+        <dgm:gSegment X1="577" Y1="273" X2="577" Y2="154"/>
+        <dgm:gSegment X1="577" Y1="154" X2="758" Y2="154"/>
         <dgm:baseColor r="153" g="153" b="153"/>
         <dgm:selectedColor r="49" g="106" b="196"/>
     </dgm:gWireLink>
     <dgm:gWireLink source="ConnectCommandBPEL/MeterJobRestReference" target="MeterJobRestReference" width="2">
-        <dgm:gSegment X1="366" Y1="252" X2="405" Y2="252"/>
-        <dgm:gSegment X1="405" Y1="252" X2="405" Y2="272"/>
-        <dgm:gSegment X1="405" Y1="272" X2="429" Y2="272"/>
+        <dgm:gSegment X1="538" Y1="298" X2="592" Y2="298"/>
+        <dgm:gSegment X1="592" Y1="298" X2="592" Y2="272"/>
+        <dgm:gSegment X1="592" Y1="272" X2="758" Y2="272"/>
         <dgm:baseColor r="153" g="153" b="153"/>
         <dgm:selectedColor r="49" g="106" b="196"/>
     </dgm:gWireLink>
     <dgm:gWireLink source="ConnectCommandBPEL/ManageMeterJobRestReference" target="ManageMeterJobRestReference" width="2">
-        <dgm:gSegment X1="366" Y1="277" X2="390" Y2="277"/>
-        <dgm:gSegment X1="390" Y1="277" X2="390" Y2="390"/>
-        <dgm:gSegment X1="390" Y1="390" X2="429" Y2="390"/>
+        <dgm:gSegment X1="538" Y1="323" X2="577" Y2="323"/>
+        <dgm:gSegment X1="577" Y1="323" X2="577" Y2="390"/>
+        <dgm:gSegment X1="577" Y1="390" X2="758" Y2="390"/>
+        <dgm:baseColor r="153" g="153" b="153"/>
+        <dgm:selectedColor r="49" g="106" b="196"/>
+    </dgm:gWireLink>
+    <dgm:gWireLink source="ConnectCommandBPEL/JobStatusRestReference" target="JobStatusRestReference" width="2">
+        <dgm:gSegment X1="538" Y1="348" X2="562" Y2="348"/>
+        <dgm:gSegment X1="562" Y1="348" X2="562" Y2="508"/>
+        <dgm:gSegment X1="562" Y1="508" X2="758" Y2="508"/>
         <dgm:baseColor r="153" g="153" b="153"/>
         <dgm:selectedColor r="49" g="106" b="196"/>
     </dgm:gWireLink>

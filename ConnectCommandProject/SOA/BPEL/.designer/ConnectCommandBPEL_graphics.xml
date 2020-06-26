@@ -4,18 +4,20 @@
    <annotationfile/>
    <iconize/>
    <partnerlink_locations>
-      <partnerlink name="connectcommandbpel_client" x="0" y="417" side="left"/>
-      <partnerlink name="MeterGroupRestReference" x="0" y="284" side="left"/>
-      <partnerlink name="ManageMeterJobRestReference" x="0" y="476" side="left"/>
-      <partnerlink name="QueryMeterJobRestReference" x="834" y="666" side="right"/>
-      <partnerlink name="MeterJobRestReference" x="834" y="380" side="right"/>
+      <partnerlink name="connectcommandbpel_client" x="0" y="210" side="left"/>
+      <partnerlink name="MeterGroupRestReference" x="0" y="380" side="left"/>
+      <partnerlink name="ManageMeterJobRestReference" x="0" y="572" side="left"/>
+      <partnerlink name="JobStatusRestReference" x="0" y="915" side="left"/>
+      <partnerlink name="QueryMeterJobRestReference" x="834" y="767" side="right"/>
+      <partnerlink name="MeterJobRestReference" x="834" y="476" side="right"/>
    </partnerlink_locations>
-   <graph_layout viewport="0,0,1018,512" show_swimlanes="true">
+   <graph_layout viewport="0,648,1018,512" show_swimlanes="true">
       <layout_item collapsed="false" xpath="/process" type="process" showhandlers="true"/>
       <layout_item collapsed="false" xpath="/process/faultHandlers/catchAll" type="catchall"/>
       <layout_item collapsed="false" xpath="/process/faultHandlers/catchAll/sequence" type="sequence"/>
       <layout_item collapsed="false" xpath="/process/sequence" type="sequence"/>
       <layout_item collapsed="false" xpath="/process/sequence/repeatUntil" type="repeatUntil"/>
+      <layout_item collapsed="false" xpath="/process/sequence/repeatUntil/sequence" type="sequence"/>
    </graph_layout>
    <bookmarks/>
 </graphics>

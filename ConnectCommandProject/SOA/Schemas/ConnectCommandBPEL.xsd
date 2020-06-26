@@ -15,6 +15,7 @@
 		<complexType>
 			<sequence>
 				<element name="result" type="string"/>
+                                <element name="flowId" type="string" />
 			</sequence>
 		</complexType>
 	</element>

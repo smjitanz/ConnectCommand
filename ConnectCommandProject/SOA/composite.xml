@@ -21,6 +21,8 @@
           location="WSDLs/ManageMeterJobRestReference.wsdl" importType="wsdl"/>
   <import namespace="http://xmlns.oracle.com/ConnectCommandApplication/ConnectCommandProject/QueryMeterJobRestReference"
           location="WSDLs/QueryMeterJobRestReference.wsdl" importType="wsdl"/>
+  <import namespace="http://xmlns.oracle.com/ConnectCommandApplication/ConnectCommandProject/JobStatusRestReference"
+          location="WSDLs/JobStatusRestReference.wsdl" importType="wsdl"/>
   <service name="connectcommandbpel_client_ep" ui:wsdlLocation="WSDLs/ConnectCommandBPEL.wsdl">
     <interface.wsdl interface="http://xmlns.oracle.com/ConnectCommandApplication/ConnectCommandProject/ConnectCommandBPEL#wsdl.interface(ConnectCommandBPEL)"/>
     <binding.ws port="http://xmlns.oracle.com/ConnectCommandApplication/ConnectCommandProject/ConnectCommandBPEL#wsdl.endpoint(connectcommandbpel_client_ep/ConnectCommandBPEL_pt)"/>
@@ -45,12 +47,16 @@
       <reference name="ManageMeterJobRestReference" ui:wsdlLocation="WSDLs/ManageMeterJobRestReference.wsdl">
         <interface.wsdl interface="http://xmlns.oracle.com/ConnectCommandApplication/ConnectCommandProject/ManageMeterJobRestReference#wsdl.interface(ManageMeterJobRestReference_ptt)"/>
       </reference>
+      <reference name="JobStatusRestReference" ui:wsdlLocation="WSDLs/JobStatusRestReference.wsdl">
+        <interface.wsdl interface="http://xmlns.oracle.com/ConnectCommandApplication/ConnectCommandProject/JobStatusRestReference#wsdl.interface(JobStatusRestReference_ptt)"/>
+      </reference>
     </componentType>
     <property name="bpel.config.transaction" type="xs:string" many="false">required</property>
      <property name="bpel.preference.ManageJobUrl">https://mea-itanz-itg.dev.cyanconnode.com/ws/manageMeterJob/</property>
     <property name="bpel.preference.QueryJobUrl">https://mea-itanz-itg.dev.cyanconnode.com/ws/queryMeterJob/</property>
-    <property name="bpel.preference.jobName">TestJobGroupiTANZ12</property>
-    <property name="bpel.preference.groupName">TestMeterGroupiTANZ12</property>
+      <property name="bpel.preference.JobStatusUrl">https://mea-itanz-itg.dev.cyanconnode.com/ws/meterStatusForJob/</property>
+    <property name="bpel.preference.jobName">TestJobGroupiTANZ16</property>
+    <property name="bpel.preference.groupName">TestMeterGroupiTANZ16</property>
   </component>
   <reference name="MeterGroupRestReference" ui:wsdlLocation="WSDLs/MeterGroupRestReference.wsdl">
     <interface.wsdl interface="http://xmlns.oracle.com/ConnectCommandApplication/ConnectCommandProject/MeterGroupRestReference#wsdl.interface(MeterGroupRestReference_ptt)"/>
@@ -67,6 +73,10 @@
   <reference name="QueryMeterJobRestReference" ui:wsdlLocation="WSDLs/QueryMeterJobRestReference.wsdl">
     <interface.wsdl interface="http://xmlns.oracle.com/ConnectCommandApplication/ConnectCommandProject/QueryMeterJobRestReference#wsdl.interface(QueryMeterJobRestReference_ptt)"/>
     <binding.rest config="WADLs/QueryMeterJobRestReference.wadl" location="https://mea-itanz-itg.dev.cyanconnode.com"/>
+  </reference>
+  <reference name="JobStatusRestReference" ui:wsdlLocation="WSDLs/JobStatusRestReference.wsdl">
+    <interface.wsdl interface="http://xmlns.oracle.com/ConnectCommandApplication/ConnectCommandProject/JobStatusRestReference#wsdl.interface(JobStatusRestReference_ptt)"/>
+    <binding.rest config="WADLs/JobStatusRestReference.wadl" location="https://mea-itanz-itg.dev.cyanconnode.com"/>
   </reference>
   <wire>
     <source.uri>connectcommandbpel_client_ep</source.uri>
@@ -87,5 +97,9 @@
   <wire>
     <source.uri>ConnectCommandBPEL/ManageMeterJobRestReference</source.uri>
     <target.uri>ManageMeterJobRestReference</target.uri>
+  </wire>
+  <wire>
+    <source.uri>ConnectCommandBPEL/JobStatusRestReference</source.uri>
+    <target.uri>JobStatusRestReference</target.uri>
   </wire>
 </composite>
