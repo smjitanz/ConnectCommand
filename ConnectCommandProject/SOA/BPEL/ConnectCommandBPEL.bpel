@@ -34,8 +34,9 @@
          xmlns:ldap="http://schemas.oracle.com/xpath/extension/ldap"
          xmlns:ns6="http://TargetNamespace.com/MeterJobRestReference_createMeterJob_request"
          xmlns:ns7="http://TargetNamespace.com/ManageMeterJobRestReference_manageMeterJob_request">
-
-    <import ui:processWSDL="true" namespace="http://xmlns.oracle.com/ConnectCommandApplication/ConnectCommandProject/ConnectCommandBPEL" location="../WSDLs/ConnectCommandBPEL.wsdl" importType="http://schemas.xmlsoap.org/wsdl/"/>
+  <import namespace="http://schemas.oracle.com/bpel/extension" location="../WSDLs/RuntimeFault.wsdl"
+          importType="http://schemas.xmlsoap.org/wsdl/"/>
+  <import ui:processWSDL="true" namespace="http://xmlns.oracle.com/ConnectCommandApplication/ConnectCommandProject/ConnectCommandBPEL" location="../WSDLs/ConnectCommandBPEL.wsdl" importType="http://schemas.xmlsoap.org/wsdl/"/>
     <!-- 
       ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         PARTNERLINKS                                                      
@@ -81,8 +82,22 @@
     <variable name="invokeQueryJob_OutputVariable" messageType="ns1:queryMeterJob_outputMessage"/>
     <variable name="manageJobUrl" type="xsd:string"/>
     <variable name="queryJobUrl" type="xsd:string"/>
+    <variable name="ReplyError_OutputVariable" messageType="client:ConnectCommandBPELResponseMessage"/>
   </variables>
-
+  <faultHandlers>
+    <catchAll>
+      <sequence>
+        <assign name="AssignError">
+          <copy>
+            <from>ora:getFaultAsString()</from>
+            <to expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">$ReplyError_OutputVariable.payload/client:result</to>
+          </copy>
+        </assign>
+        <reply name="ReplyError" partnerLink="connectcommandbpel_client" variable="ReplyError_OutputVariable"
+               portType="client:ConnectCommandBPEL" operation="process"/>
+      </sequence>
+    </catchAll>
+  </faultHandlers>
   <!-- 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
      ORCHESTRATION LOGIC                                               
@@ -96,12 +111,12 @@
     <receive name="receiveInput" partnerLink="connectcommandbpel_client" portType="client:ConnectCommandBPEL" operation="process" variable="inputVariable" createInstance="yes"/>
     <assign name="InputAssignments">
       <copy>
-        <from>$inputVariable.payload/client:input</from>
-        <to expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">$invokeMeterGroup_InputVariable.request/ns5:meters</to>
-      </copy>
-      <copy>
         <from>ora:getPreference("groupName")</from>
         <to expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">$invokeMeterGroup_InputVariable.request/ns5:meterGroupName</to>
+      </copy>
+      <copy>
+        <from>$inputVariable.payload/client:meterId</from>
+        <to expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">$invokeMeterGroup_InputVariable.request/ns5:meters</to>
       </copy>
       <copy>
         <from>"STATIC"</from>
@@ -124,12 +139,12 @@
         <to expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">$invokeMeterJob_InputVariable.request/ns6:jobConfiguration/ns6:commands/ns6:type</to>
       </copy>
       <copy>
-        <from>"CONNECT"</from>
-        <to expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">$invokeMeterJob_InputVariable.request/ns6:jobConfiguration/ns6:commands/ns6:controlRequest</to>
-      </copy>
-      <copy>
         <from>concat(ora:getPreference("ManageJobUrl"),ora:getPreference("jobName"))</from>
         <to expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">$manageJobUrl</to>
+      </copy>
+      <copy>
+        <from>$inputVariable.payload/client:command</from>
+        <to expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">$invokeMeterJob_InputVariable.request/ns6:jobConfiguration/ns6:commands/ns6:controlRequest</to>
       </copy>
       <copy>
         <from>"START"</from>

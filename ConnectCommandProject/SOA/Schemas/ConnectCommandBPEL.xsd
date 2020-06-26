@@ -6,7 +6,8 @@
 	<element name="process">
 		<complexType>
 			<sequence>
-				<element name="input" type="string"/>
+				<element name="meterId" type="string"/>
+                                <element name="command" type="string"/>
 			</sequence>
 		</complexType>
 	</element>
