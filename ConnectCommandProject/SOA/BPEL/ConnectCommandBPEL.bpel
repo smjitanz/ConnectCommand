@@ -92,6 +92,10 @@
     <variable name="InvokeJobStatus_OutputVariable" messageType="ns8:StatusForJob_outputMessage"/>
     <variable name="jobStatusUrl" type="xsd:string"/>
     <variable name="jobStatus" type="xsd:string"/>
+    <variable name="InvokeDeleteJob_InputVariable" messageType="ns4:manageMeterJob_inputMessage"/>
+    <variable name="InvokeDeleteJob_OutputVariable" messageType="ns4:manageMeterJob_outputMessage"/>
+    <variable name="InvokeDeleteMeterGroup_InputVariable" messageType="ns2:deleteMeterGroup_inputMessage"/>
+    <variable name="InvokeDeleteMeterGroup_OutputVariable" messageType="ns2:Rest_EmptyMessage"/>
   </variables>
   <faultHandlers>
     <catchAll>
@@ -100,6 +104,10 @@
           <copy>
             <from>ora:getFaultAsString()</from>
             <to expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">$ReplyError_OutputVariable.payload/client:result</to>
+          </copy>
+          <copy>
+            <from>ora:getFlowId()</from>
+            <to expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">$ReplyError_OutputVariable.payload/client:flowId</to>
           </copy>
         </assign>
         <reply name="ReplyError" partnerLink="connectcommandbpel_client" variable="ReplyError_OutputVariable"
@@ -183,6 +191,14 @@
         <from>concat(ora:getPreference("JobStatusUrl"),ora:getPreference("jobName"))</from>
         <to expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">$jobStatusUrl</to>
       </copy>
+      <copy>
+        <from>"DELETE"</from>
+        <to expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">$InvokeDeleteJob_InputVariable.request/ns7:instruction</to>
+      </copy>
+      <copy>
+        <from>ora:getPreference("groupName")</from>
+        <to expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">$InvokeDeleteMeterGroup_InputVariable.request/ns2:groupName</to>
+      </copy>
     </assign>
     <reply name="replyOutput" partnerLink="connectcommandbpel_client" portType="client:ConnectCommandBPEL"
            operation="process" variable="outputVariable"/>
@@ -228,5 +244,17 @@
         <to expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">$jobStatus</to>
       </copy>
     </assign>
+    <invoke name="InvokeDeleteJob" partnerLink="ManageMeterJobRestReference"
+            portType="ns4:ManageMeterJobRestReference_ptt" operation="manageMeterJob"
+            inputVariable="InvokeDeleteJob_InputVariable" outputVariable="InvokeDeleteJob_OutputVariable"
+            bpelx:invokeAsDetail="no">
+      <bpelx:toProperties>
+        <bpelx:toProperty name="rest.binding.requestURI" variable="manageJobUrl"/>
+      </bpelx:toProperties>
+    </invoke>
+    <invoke name="InvokeDeleteMeterGroup" partnerLink="MeterGroupRestReference"
+            portType="ns2:MeterGroupRestReference_ptt" operation="deleteMeterGroup" bpelx:invokeAsDetail="no"
+            inputVariable="InvokeDeleteMeterGroup_InputVariable"
+            outputVariable="InvokeDeleteMeterGroup_OutputVariable"/>
   </sequence>
 </process>

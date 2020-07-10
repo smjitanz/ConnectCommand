@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<SOAConfigPlan xmlns:jca="http://platform.integration.oracle/blocks/adapter/fw/metadata" xmlns:wsp="http://schemas.xmlsoap.org/ws/2004/09/policy" xmlns:orawsp="http://schemas.oracle.com/ws/2006/01/policy" xmlns:edl="http://schemas.oracle.com/events/edl" xmlns="http://schemas.oracle.com/soa/configplan">
+   <composite name="ConnectCommandComposite">
+      <!--Add search and replace rules for the import section of a composite
+	Example:
+	<searchReplace>
+		<search>http://my-dev-server</search>
+		<replace>http://my-test-server</replace>
+	<searchReplace>
+	<searchReplace>
+		<search>8888</search>
+		<replace>8889</replace>
+	<searchReplace>-->
+      <import>
+         <searchReplace>
+            <search/>
+            <replace/>
+         </searchReplace>
+      </import>
+      <service name="connectcommandbpel_client_ep">
+         <binding type="ws">
+            <attribute name="port">
+               <replace>http://xmlns.oracle.com/ConnectCommandApplication/ConnectCommandProject/ConnectCommandBPEL#wsdl.endpoint(connectcommandbpel_client_ep/ConnectCommandBPEL_pt)</replace>
+            </attribute>
+         </binding>
+      </service>
+      <property name="productVersion">
+         <replace>12.2.1.3.0.170820</replace>
+      </property>
+      <property name="compositeID">
+         <replace>2135bcda-4358-4462-ab6d-dc0a404aa35b</replace>
+      </property>
+      <!--Add search and replace rules for the component properties
+	For components and service/reference bindings, you can add policy references.
+	Example:
+	<component name="*">
+		<wsp:PolicyReference orawsp:category="management" orawsp:status="enabled" URI="oracle/log_policy"/>
+	</component>-->
+      <component name="ConnectCommandBPEL">
+         <property name="bpel.config.transaction">
+            <replace>required</replace>
+         </property>
+         <property name="bpel.preference.ManageJobUrl">
+            <replace>https://mea-itanz-itg.dev.cyanconnode.com/ws/manageMeterJob/</replace>
+         </property>
+         <property name="bpel.preference.QueryJobUrl">
+            <replace>https://mea-itanz-itg.dev.cyanconnode.com/ws/queryMeterJob/</replace>
+         </property>
+         <property name="bpel.preference.JobStatusUrl">
+            <replace>https://mea-itanz-itg.dev.cyanconnode.com/ws/meterStatusForJob/</replace>
+         </property>
+         <property name="bpel.preference.jobName">
+            <replace>TestJobGroupiTANZ16</replace>
+         </property>
+         <property name="bpel.preference.groupName">
+            <replace>TestMeterGroupiTANZ16</replace>
+         </property>
+      </component>
+      <reference name="MeterGroupRestReference">
+         <binding type="rest"/>
+      </reference>
+      <reference name="MeterJobRestReference">
+         <binding type="rest"/>
+      </reference>
+      <reference name="ManageMeterJobRestReference">
+         <binding type="rest"/>
+      </reference>
+      <reference name="QueryMeterJobRestReference">
+         <binding type="rest"/>
+      </reference>
+      <reference name="JobStatusRestReference">
+         <binding type="rest"/>
+      </reference>
+   </composite>
+   <!--To configure monitor.config: 
+	<property name="enabled"><replace>true</replace></property>
+	<property name="dataObjectsFolder"><searchReplace><search>mydev</search><replace>myproduction</replace></searchReplace></property>
+	
+	sample properties to configure for adapter: 
+	<jca:property name="QueueName"><replace>medmq1</replace></jca:property>
+	
+	To add search and replace rules for wsdls, xsd and jca files
+	Example:
+	<searchReplace>
+		<search>http://my-dev-server</search>
+		<replace>http://my-test-server</replace>
+	<searchReplace>
+	<searchReplace>
+		<search>8888</search>
+		<replace>8889</replace>
+	<searchReplace>
+	-->
+   <wsdlAndSchema name="Schemas/ConnectCommandBPEL.xsd|Schemas/CyanApi.xsd|Schemas/cyanApi4.xsd|Schemas/EmptyJson.xsd|Schemas/JobStatusRequest.xsd|Schemas/JobStatusResponse.xsd|Schemas/manageMeterJobRequest.xsd|Schemas/MeterJobRequest.xsd|WSDLs/ConnectCommandBPEL.wsdl|WSDLs/JobStatusRestReference.wsdl|WSDLs/ManageMeterJobRestReference.wsdl|WSDLs/MeterGroupRestReference.wsdl|WSDLs/MeterJobRestReference.wsdl|WSDLs/QueryMeterJobRestReference.wsdl|WSDLs/RuntimeFault.wsdl|wsm-assembly.xml">
+      <searchReplace>
+         <search/>
+         <replace/>
+      </searchReplace>
+   </wsdlAndSchema>
+</SOAConfigPlan>

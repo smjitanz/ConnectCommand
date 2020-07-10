@@ -1,0 +1,1 @@
+https://mea-itanz-itg.dev.cyanconnode.com/ws/meterGroup/$meterGroupName

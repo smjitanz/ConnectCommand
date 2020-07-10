@@ -8,6 +8,20 @@
       <xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
             <xsd:import namespace="http://TargetNamespace.com/MeterGroupRestReference_createMeterGroup_response" schemaLocation="../Schemas/EmptyJson.xsd"/>
         </xsd:schema>
+      <schema xmlns="http://www.w3.org/2001/XMLSchema" targetNamespace="http://xmlns.oracle.com/ConnectCommandApplication/ConnectCommandProject/MeterGroupRestReference" elementFormDefault="qualified">
+            <element name="empty">
+                <complexType/>
+            </element>
+        </schema>
+      <schema xmlns="http://www.w3.org/2001/XMLSchema" targetNamespace="http://xmlns.oracle.com/ConnectCommandApplication/ConnectCommandProject/MeterGroupRestReference" elementFormDefault="qualified">
+            <element name="deleteMeterGroup_params">
+                <complexType>
+                    <sequence>
+                        <element name="groupName" type="string"/>
+                    </sequence>
+                </complexType>
+            </element>
+        </schema>
    </grammars>
    <resources>
       <resource path="/ws/meterGroup">
@@ -18,6 +32,14 @@
             <response status="201">
                <representation mediaType="application/json" element="cns:Root-Element" xmlns:cns="http://TargetNamespace.com/MeterGroupRestReference_createMeterGroup_response"/>
             </response>
+         </method>
+      </resource>
+      <resource path="/ws/meterGroup/{groupName}">
+         <method name="DELETE" soa:wsdlOperation="deleteMeterGroup">
+            <request soa:paramElement="pns:deleteMeterGroup_params" xmlns:pns="http://xmlns.oracle.com/ConnectCommandApplication/ConnectCommandProject/MeterGroupRestReference">
+               <param name="groupName" style="template" soa:expression="$msg.request/pns:groupName" type="xsd:string"/>
+            </request>
+            <response status="204"/>
          </method>
       </resource>
    </resources>
