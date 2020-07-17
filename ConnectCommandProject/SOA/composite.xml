@@ -57,6 +57,7 @@
       <property name="bpel.preference.JobStatusUrl">https://mea-itanz-itg.dev.cyanconnode.com/ws/meterStatusForJob/</property>
     <property name="bpel.preference.jobName">TestJobGroupiTANZ16</property>
     <property name="bpel.preference.groupName">TestMeterGroupiTANZ16</property>
+    <property name="bpel.preference.time">10</property>
   </component>
   <reference name="MeterGroupRestReference" ui:wsdlLocation="WSDLs/MeterGroupRestReference.wsdl">
     <interface.wsdl interface="http://xmlns.oracle.com/ConnectCommandApplication/ConnectCommandProject/MeterGroupRestReference#wsdl.interface(MeterGroupRestReference_ptt)"/>

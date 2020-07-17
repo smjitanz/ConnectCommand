@@ -218,6 +218,9 @@
     </invoke>
     <repeatUntil name="RepeatUntilJobCompleted">
       <sequence name="Sequence1">
+        <wait name="WaitBeforeQueryJob">
+          <for expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">concat("PT",ora:getPreference("time"),"S")</for>
+        </wait>
         <invoke name="invokeQueryJob" partnerLink="QueryMeterJobRestReference"
                 portType="ns1:QueryMeterJobRestReference_ptt" operation="queryMeterJob"
                 inputVariable="invokeQueryJob_InputVariable" outputVariable="invokeQueryJob_OutputVariable"

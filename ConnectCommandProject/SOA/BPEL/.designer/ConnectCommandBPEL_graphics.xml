@@ -5,13 +5,13 @@
    <iconize/>
    <partnerlink_locations>
       <partnerlink name="connectcommandbpel_client" x="0" y="210" side="left"/>
-      <partnerlink name="MeterGroupRestReference" x="0" y="782" side="left"/>
-      <partnerlink name="ManageMeterJobRestReference" x="0" y="839" side="left"/>
-      <partnerlink name="JobStatusRestReference" x="0" y="915" side="left"/>
-      <partnerlink name="QueryMeterJobRestReference" x="834" y="767" side="right"/>
-      <partnerlink name="MeterJobRestReference" x="834" y="476" side="right"/>
+      <partnerlink name="MeterGroupRestReference" x="0" y="830" side="left"/>
+      <partnerlink name="ManageMeterJobRestReference" x="0" y="887" side="left"/>
+      <partnerlink name="JobStatusRestReference" x="0" y="1011" side="left"/>
+      <partnerlink name="QueryMeterJobRestReference" x="788" y="863" side="right"/>
+      <partnerlink name="MeterJobRestReference" x="788" y="476" side="right"/>
    </partnerlink_locations>
-   <graph_layout viewport="0,825,1018,512" show_swimlanes="true">
+   <graph_layout viewport="0,692,972,512" show_swimlanes="true">
       <layout_item collapsed="false" xpath="/process" type="process" showhandlers="true"/>
       <layout_item collapsed="false" xpath="/process/faultHandlers/catchAll" type="catchall"/>
       <layout_item collapsed="false" xpath="/process/faultHandlers/catchAll/sequence" type="sequence"/>
