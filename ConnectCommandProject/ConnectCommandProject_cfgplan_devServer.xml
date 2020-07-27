@@ -55,6 +55,9 @@
          <property name="bpel.preference.groupName">
             <replace>TestMeterGroupiTANZ16</replace>
          </property>
+         <property name="bpel.preference.time">
+            <replace>10</replace>
+         </property>
       </component>
       <reference name="MeterGroupRestReference">
          <binding type="rest"/>
@@ -70,6 +73,20 @@
       </reference>
       <reference name="JobStatusRestReference">
          <binding type="rest"/>
+      </reference>
+      <reference name="OUAFResponseSOAPReference">
+         <!--Add search and replace rules for the binding properties-->
+         <binding type="ws">
+            <attribute name="port">
+               <replace>http://ouaf.oracle.com/spl/XAIXapp/xaiserver/CYANConnectDisconnctResp#wsdl.endpoint(CYANConnectDisconnctRespService/CYANConnectDisconnctRespPort)</replace>
+            </attribute>
+            <attribute name="location">
+               <replace>WSDLs/CYANConnectDisconnctResp_1.wsdl</replace>
+            </attribute>
+            <property name="weblogic.wsee.wsat.transaction.flowOption">
+               <replace>WSDLDriven</replace>
+            </property>
+         </binding>
       </reference>
    </composite>
    <!--To configure monitor.config: 
@@ -90,7 +107,7 @@
 		<replace>8889</replace>
 	<searchReplace>
 	-->
-   <wsdlAndSchema name="Schemas/ConnectCommandBPEL.xsd|Schemas/CyanApi.xsd|Schemas/cyanApi4.xsd|Schemas/EmptyJson.xsd|Schemas/JobStatusRequest.xsd|Schemas/JobStatusResponse.xsd|Schemas/manageMeterJobRequest.xsd|Schemas/MeterJobRequest.xsd|WSDLs/ConnectCommandBPEL.wsdl|WSDLs/JobStatusRestReference.wsdl|WSDLs/ManageMeterJobRestReference.wsdl|WSDLs/MeterGroupRestReference.wsdl|WSDLs/MeterJobRestReference.wsdl|WSDLs/QueryMeterJobRestReference.wsdl|WSDLs/RuntimeFault.wsdl|wsm-assembly.xml">
+   <wsdlAndSchema name="Schemas/ConnectCommandBPEL.xsd|Schemas/CyanApi.xsd|Schemas/cyanApi4.xsd|Schemas/EmptyJson.xsd|Schemas/JobStatusRequest.xsd|Schemas/JobStatusResponse.xsd|Schemas/manageMeterJobRequest.xsd|Schemas/MeterJobRequest.xsd|WSDLs/ConnectCommandBPEL.wsdl|WSDLs/CYANConnectDisconnctResp_1.wsdl|WSDLs/CYANConnectDisconnctResp_1Wrapper.wsdl|WSDLs/JobStatusRestReference.wsdl|WSDLs/ManageMeterJobRestReference.wsdl|WSDLs/MeterGroupRestReference.wsdl|WSDLs/MeterJobRestReference.wsdl|WSDLs/QueryMeterJobRestReference.wsdl|WSDLs/RuntimeFault.wsdl|wsm-assembly.xml">
       <searchReplace>
          <search/>
          <replace/>
