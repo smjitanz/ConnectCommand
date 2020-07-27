@@ -36,7 +36,10 @@
          xmlns:ns7="http://TargetNamespace.com/ManageMeterJobRestReference_manageMeterJob_request"
          xmlns:ns8="http://xmlns.oracle.com/ConnectCommandApplication/ConnectCommandProject/JobStatusRestReference"
          xmlns:ns9="http://TargetNamespace.com/JobStatusRestReference_StatusForJob_request"
-         xmlns:ns10="http://TargetNamespace.com/JobStatusRestReference_StatusForJob_response">
+         xmlns:ns10="http://TargetNamespace.com/JobStatusRestReference_StatusForJob_response"
+         xmlns:ns11="http://ouaf.oracle.com/spl/XAIXapp/xaiserver/CYANConnectDisconnctResp"
+         xmlns:ns12="http://oracle.com/CYANConnectDisconnctResp.xsd"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <import namespace="http://schemas.oracle.com/bpel/extension" location="../WSDLs/RuntimeFault.wsdl"
           importType="http://schemas.xmlsoap.org/wsdl/"/>
   <import ui:processWSDL="true" namespace="http://xmlns.oracle.com/ConnectCommandApplication/ConnectCommandProject/ConnectCommandBPEL" location="../WSDLs/ConnectCommandBPEL.wsdl" importType="http://schemas.xmlsoap.org/wsdl/"/>
@@ -63,6 +66,8 @@
                  partnerRole="ManageMeterJobRestReferenceProvider"/>
     <partnerLink name="JobStatusRestReference" partnerLinkType="ns8:JobStatusRestReference"
                  partnerRole="JobStatusRestReferenceProvider"/>
+    <partnerLink name="OUAFResponseSOAPReference" partnerLinkType="ns11:OUAFResponseSOAPReference"
+                 partnerRole="CYANConnectDisconnctRespPortType"/>
   </partnerLinks>
 
   <!-- 
@@ -96,6 +101,10 @@
     <variable name="InvokeDeleteJob_OutputVariable" messageType="ns4:manageMeterJob_outputMessage"/>
     <variable name="InvokeDeleteMeterGroup_InputVariable" messageType="ns2:deleteMeterGroup_inputMessage"/>
     <variable name="InvokeDeleteMeterGroup_OutputVariable" messageType="ns2:Rest_EmptyMessage"/>
+    <variable name="InvokeOUAFResponse_InputVariable" messageType="ns11:CYANConnectDisconnctRespRequest"/>
+    <variable name="InvokeOUAFResponse_OutputVariable" messageType="ns11:CYANConnectDisconnctRespResponse"/>
+    <variable name="InvokeFaultOUAFResponse_InputVariable" messageType="ns11:CYANConnectDisconnctRespRequest"/>
+    <variable name="InvokeFaultOUAFResponse_OutputVariable" messageType="ns11:CYANConnectDisconnctRespResponse"/>
   </variables>
   <faultHandlers>
     <catchAll>
@@ -106,12 +115,40 @@
             <to expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">$ReplyError_OutputVariable.payload/client:result</to>
           </copy>
           <copy>
+            <from>$inputVariable.payload/client:meterId</from>
+            <to expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">$InvokeFaultOUAFResponse_InputVariable.body/ns12:deviceId</to>
+          </copy>
+          <copy>
+            <from>$inputVariable.payload/client:meterId</from>
+            <to expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">$InvokeFaultOUAFResponse_InputVariable.body/ns12:responseDetail/ns12:responseEnvelope/ns12:utilityDeviceID</to>
+          </copy>
+          <copy>
             <from>ora:getFlowId()</from>
             <to expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">$ReplyError_OutputVariable.payload/client:flowId</to>
+          </copy>
+          <copy>
+            <from>ora:getFlowId()</from>
+            <to expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">$InvokeFaultOUAFResponse_InputVariable.body/ns12:responseDetail/ns12:responseEnvelope/ns12:transactionID</to>
+          </copy>
+          <copy>
+            <from>ora:getFlowId()</from>
+            <to expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">$InvokeFaultOUAFResponse_InputVariable.body/ns12:transactionId</to>
+          </copy>
+          <copy>
+            <from>"e"</from>
+            <to expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">$InvokeFaultOUAFResponse_InputVariable.body/ns12:responseDetail/ns12:responseEnvelope/ns12:fault/ns12:faultCode</to>
+          </copy>
+          <copy>
+            <from>ora:getFaultAsString()</from>
+            <to expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">$InvokeFaultOUAFResponse_InputVariable.body/ns12:responseDetail/ns12:responseEnvelope/ns12:fault/ns12:faultString</to>
           </copy>
         </assign>
         <reply name="ReplyError" partnerLink="connectcommandbpel_client" variable="ReplyError_OutputVariable"
                portType="client:ConnectCommandBPEL" operation="process"/>
+        <invoke name="InvokeFaultOUAFResponse" bpelx:invokeAsDetail="no" partnerLink="OUAFResponseSOAPReference"
+                portType="ns11:CYANConnectDisconnctRespPortType" operation="CYANConnectDisconnctResp"
+                inputVariable="InvokeFaultOUAFResponse_InputVariable"
+                outputVariable="InvokeFaultOUAFResponse_OutputVariable"/>
       </sequence>
     </catchAll>
   </faultHandlers>
@@ -246,6 +283,38 @@
         <from>$InvokeJobStatus_OutputVariable.reply/ns10:meters/ns10:status</from>
         <to expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">$jobStatus</to>
       </copy>
+      <copy>
+        <from>$inputVariable.payload/client:meterId</from>
+        <to expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">$InvokeOUAFResponse_InputVariable.body/ns12:responseDetail/ns12:responseEnvelope/ns12:remoteProvisioningResults/ns12:remoteProvisioningResult/ns12:deviceName</to>
+      </copy>
+      <copy>
+        <from>$inputVariable.payload/client:command</from>
+        <to expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">$InvokeOUAFResponse_InputVariable.body/ns12:responseDetail/ns12:responseEnvelope/ns12:remoteProvisioningResults/ns12:remoteProvisioningResult/ns12:requestedProvisioningAction</to>
+      </copy>
+      <copy>
+        <from>$invokeQueryJob_OutputVariable.reply/status</from>
+        <to expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">$InvokeOUAFResponse_InputVariable.body/ns12:responseDetail/ns12:responseEnvelope/ns12:remoteProvisioningResults/ns12:remoteProvisioningResult/ns12:provisioningCommandStatus</to>
+      </copy>
+      <copy>
+        <from>$InvokeJobStatus_OutputVariable.reply/ns10:meters/ns10:status</from>
+        <to expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">$InvokeOUAFResponse_InputVariable.body/ns12:responseDetail/ns12:responseEnvelope/ns12:remoteProvisioningResults/ns12:remoteProvisioningResult/ns12:meterConnectionStatus</to>
+      </copy>
+      <copy>
+        <from>$inputVariable.payload/client:meterId</from>
+        <to expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">$InvokeOUAFResponse_InputVariable.body/ns12:deviceId</to>
+      </copy>
+      <copy>
+        <from>ora:getFlowId()</from>
+        <to expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">$InvokeOUAFResponse_InputVariable.body/ns12:transactionId</to>
+      </copy>
+      <copy>
+        <from>ora:getFlowId()</from>
+        <to expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">$InvokeOUAFResponse_InputVariable.body/ns12:responseDetail/ns12:responseEnvelope/ns12:transactionID</to>
+      </copy>
+      <copy>
+        <from>$inputVariable.payload/client:meterId</from>
+        <to expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">$InvokeOUAFResponse_InputVariable.body/ns12:responseDetail/ns12:responseEnvelope/ns12:utilityDeviceID</to>
+      </copy>
     </assign>
     <invoke name="InvokeDeleteJob" partnerLink="ManageMeterJobRestReference"
             portType="ns4:ManageMeterJobRestReference_ptt" operation="manageMeterJob"
@@ -259,5 +328,8 @@
             portType="ns2:MeterGroupRestReference_ptt" operation="deleteMeterGroup" bpelx:invokeAsDetail="no"
             inputVariable="InvokeDeleteMeterGroup_InputVariable"
             outputVariable="InvokeDeleteMeterGroup_OutputVariable"/>
+    <invoke name="InvokeOUAFResponse" bpelx:invokeAsDetail="no" partnerLink="OUAFResponseSOAPReference"
+            portType="ns11:CYANConnectDisconnctRespPortType" operation="CYANConnectDisconnctResp"
+            inputVariable="InvokeOUAFResponse_InputVariable" outputVariable="InvokeOUAFResponse_OutputVariable"/>
   </sequence>
 </process>

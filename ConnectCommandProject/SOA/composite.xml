@@ -23,6 +23,10 @@
           location="WSDLs/QueryMeterJobRestReference.wsdl" importType="wsdl"/>
   <import namespace="http://xmlns.oracle.com/ConnectCommandApplication/ConnectCommandProject/JobStatusRestReference"
           location="WSDLs/JobStatusRestReference.wsdl" importType="wsdl"/>
+  <import namespace="http://ouaf.oracle.com/spl/XAIXapp/xaiserver/CYANConnectDisconnctResp"
+          location="WSDLs/CYANConnectDisconnctResp_1.wsdl" importType="wsdl"/>
+  <import namespace="http://ouaf.oracle.com/spl/XAIXapp/xaiserver/CYANConnectDisconnctResp"
+          location="WSDLs/CYANConnectDisconnctResp_1Wrapper.wsdl" importType="wsdl"/>
   <service name="connectcommandbpel_client_ep" ui:wsdlLocation="WSDLs/ConnectCommandBPEL.wsdl">
     <interface.wsdl interface="http://xmlns.oracle.com/ConnectCommandApplication/ConnectCommandProject/ConnectCommandBPEL#wsdl.interface(ConnectCommandBPEL)"/>
     <binding.ws port="http://xmlns.oracle.com/ConnectCommandApplication/ConnectCommandProject/ConnectCommandBPEL#wsdl.endpoint(connectcommandbpel_client_ep/ConnectCommandBPEL_pt)"/>
@@ -49,6 +53,9 @@
       </reference>
       <reference name="JobStatusRestReference" ui:wsdlLocation="WSDLs/JobStatusRestReference.wsdl">
         <interface.wsdl interface="http://xmlns.oracle.com/ConnectCommandApplication/ConnectCommandProject/JobStatusRestReference#wsdl.interface(JobStatusRestReference_ptt)"/>
+      </reference>
+      <reference name="OUAFResponseSOAPReference" ui:wsdlLocation="WSDLs/CYANConnectDisconnctResp_1Wrapper.wsdl">
+        <interface.wsdl interface="http://ouaf.oracle.com/spl/XAIXapp/xaiserver/CYANConnectDisconnctResp#wsdl.interface(CYANConnectDisconnctRespPortType)"/>
       </reference>
     </componentType>
     <property name="bpel.config.transaction" type="xs:string" many="false">required</property>
@@ -79,6 +86,13 @@
     <interface.wsdl interface="http://xmlns.oracle.com/ConnectCommandApplication/ConnectCommandProject/JobStatusRestReference#wsdl.interface(JobStatusRestReference_ptt)"/>
     <binding.rest config="WADLs/JobStatusRestReference.wadl" location="https://mea-itanz-itg.dev.cyanconnode.com"/>
   </reference>
+  <reference name="OUAFResponseSOAPReference" ui:wsdlLocation="WSDLs/CYANConnectDisconnctResp_1.wsdl">
+    <interface.wsdl interface="http://ouaf.oracle.com/spl/XAIXapp/xaiserver/CYANConnectDisconnctResp#wsdl.interface(CYANConnectDisconnctRespPortType)"/>
+    <binding.ws port="http://ouaf.oracle.com/spl/XAIXapp/xaiserver/CYANConnectDisconnctResp#wsdl.endpoint(CYANConnectDisconnctRespService/CYANConnectDisconnctRespPort)"
+                location="WSDLs/CYANConnectDisconnctResp_1.wsdl" soapVersion="1.1">
+      <property name="weblogic.wsee.wsat.transaction.flowOption" type="xs:string" many="false">WSDLDriven</property>
+    </binding.ws>
+  </reference>
   <wire>
     <source.uri>connectcommandbpel_client_ep</source.uri>
     <target.uri>ConnectCommandBPEL/connectcommandbpel_client</target.uri>
@@ -102,5 +116,9 @@
   <wire>
     <source.uri>ConnectCommandBPEL/JobStatusRestReference</source.uri>
     <target.uri>JobStatusRestReference</target.uri>
+  </wire>
+  <wire>
+    <source.uri>ConnectCommandBPEL/OUAFResponseSOAPReference</source.uri>
+    <target.uri>OUAFResponseSOAPReference</target.uri>
   </wire>
 </composite>
