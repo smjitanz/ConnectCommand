@@ -1,15 +1,17 @@
 <?xml version = '1.0' encoding = 'UTF-8'?>
-<!--root element wsdl:definitions defines set of related services-->
+<!--Published by JAX-WS RI (http://jax-ws.java.net). RI's version is JAX-WS RI 2.3.0-b170407.2038 svn-revision#2eaca54d17a59d265c6fe886b7fd0027836c766c.-->
 <wsdl:definitions
-     name="CYANConnectDisconnctResp"
-     targetNamespace="http://ouaf.oracle.com/spl/XAIXapp/xaiserver/CYANConnectDisconnctResp"
-     xmlns:xai="http://ouaf.oracle.com/spl/XAIXapp/xaiserver/CYANConnectDisconnctResp"
-     xmlns:ns1="http://oracle.com/CYANConnectDisconnctResp.xsd"
-     xmlns:ns2="http://oracle.com/CYANConnectDisconnctResp.xsd"
+     name="CYANCDCResponse"
+     targetNamespace="http://ouaf.oracle.com/webservices/cm/CYANCDCResponse"
+     xmlns:tns="http://ouaf.oracle.com/webservices/cm/CYANCDCResponse"
      xmlns:ouaf="http://ouaf.oracle.com/"
      xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
      xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+     xmlns:wsp="http://www.w3.org/ns/ws-policy"
+     xmlns:wssutil="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd"
     >
+    <wsdl:documentation>CYANCDCResponse version 3: CYAN Connect Disconnect Response</wsdl:documentation>
+    <wsp:UsingPolicy wssutil:Required="true"/>
     <wsdl:types>
         <xsd:schema targetNamespace="http://ouaf.oracle.com/" elementFormDefault="unqualified" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
             <xsd:element name="Fault">
@@ -63,7 +65,7 @@
                 </xsd:restriction>
             </xsd:simpleType>
         </xsd:schema>
-        <xsd:schema targetNamespace="http://oracle.com/CYANConnectDisconnctResp.xsd" elementFormDefault="qualified"
+        <xsd:schema targetNamespace="http://ouaf.oracle.com/webservices/cm/CYANCDCResponse" elementFormDefault="qualified"
              xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
             <xsd:import namespace="http://ouaf.oracle.com/"/>
             <xsd:element name="CYANConnectDisconnctResp">
@@ -423,42 +425,32 @@
                             </xsd:complexType>
                         </xsd:element>
                     </xsd:sequence>
-                    <xsd:attribute name="dateTimeTagFormat" type="xsd:string" fixed="xsd:strict" use="required"/>
-                    <xsd:attribute name="transactionType">
-                        <xsd:simpleType>
-                            <xsd:restriction base="xsd:token">
-                                <xsd:enumeration value="ADD"/>
-                                <xsd:enumeration value="READ"/>
-                                <xsd:enumeration value="DEL"/>
-                                <xsd:enumeration value="UPD"/>
-                                <xsd:enumeration value="REPL"/>
-                            </xsd:restriction>
-                        </xsd:simpleType>
-                    </xsd:attribute>
                 </xsd:complexType>
             </xsd:element>
         </xsd:schema>
     </wsdl:types>
     <wsdl:message name="CYANConnectDisconnctRespRequest">
-        <wsdl:part name="body" element="ns1:CYANConnectDisconnctResp"/>
+        <wsdl:part name="body" element="tns:CYANConnectDisconnctResp"/>
     </wsdl:message>
     <wsdl:message name="CYANConnectDisconnctRespResponse">
-        <wsdl:part name="body" element="ns1:CYANConnectDisconnctResp"/>
+        <wsdl:part name="body" element="tns:CYANConnectDisconnctResp"/>
     </wsdl:message>
-    <wsdl:message name="CYANConnectDisconnctRespFault">
+    <wsdl:message name="Fault">
         <wsdl:part name="fault" element="ouaf:Fault"/>
     </wsdl:message>
-    <wsdl:portType name="CYANConnectDisconnctRespPortType">
+    <wsdl:portType name="CYANCDCResponsePortType">
+        <wsdl:documentation>CYANCDCResponse version 3: CYAN Connect Disconnect Response</wsdl:documentation>
         <wsdl:operation name="CYANConnectDisconnctResp">
-            <wsdl:input message="xai:CYANConnectDisconnctRespRequest"/>
-            <wsdl:output message="xai:CYANConnectDisconnctRespResponse"/>
-            <wsdl:fault name="fault" message="xai:CYANConnectDisconnctRespFault"/>
+            <wsdl:input message="tns:CYANConnectDisconnctRespRequest"/>
+            <wsdl:output message="tns:CYANConnectDisconnctRespResponse"/>
+            <wsdl:fault name="fault" message="tns:Fault"/>
         </wsdl:operation>
     </wsdl:portType>
-    <wsdl:binding name="CYANConnectDisconnctRespSoapBinding" type="xai:CYANConnectDisconnctRespPortType">
+    <wsdl:binding name="CYANCDCResponseSoapBinding" type="tns:CYANCDCResponsePortType">
+        <wsp:PolicyReference URI="policy:Wssp1.2-2007-Https-BasicAuth-NoTimestamp.xml"/>
         <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
         <wsdl:operation name="CYANConnectDisconnctResp">
-            <soap:operation soapAction="http://ouaf.oracle.com/spl/XAIXapp/xaiserver/CYANConnectDisconnctResp"/>
+            <soap:operation soapAction="http://192.168.203.36/webservices/CYANCDCResponse#CYANConnectDisconnctResp"/>
             <wsdl:input>
                 <soap:body use="literal"/>
             </wsdl:input>
@@ -470,10 +462,10 @@
             </wsdl:fault>
         </wsdl:operation>
     </wsdl:binding>
-    <wsdl:service name="CYANConnectDisconnctRespService">
-        <wsdl:documentation>CYANConnectDisconnctResp version 2: CYAN - Connect or Disconnect  Response</wsdl:documentation>
-        <wsdl:port name="CYANConnectDisconnctRespPort" binding="xai:CYANConnectDisconnctRespSoapBinding">
-            <soap:address location="http://example.com/CYANConnectDisconnctResp"/>
+    <wsdl:service name="CYANCDCResponseService">
+        <wsdl:documentation>CYANCDCResponse version 3: CYAN Connect Disconnect Response</wsdl:documentation>
+        <wsdl:port name="CYANCDCResponsePort" binding="tns:CYANCDCResponseSoapBinding">
+            <soap:address location="http://192.168.203.36:6501/ouaf/webservices/CYANCDCResponse"/>
         </wsdl:port>
     </wsdl:service>
 </wsdl:definitions>

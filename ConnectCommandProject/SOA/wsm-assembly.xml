@@ -1,53 +1,78 @@
 <?xml version="1.0" encoding="windows-1252" ?>
 <orawsp:wsm-assembly xmlns:orawsp="http://schemas.oracle.com/ws/2006/01/policy">
   <sca11:policySet xmlns:sca11="http://docs.oasis-open.org/ns/opencsa/sca/200912" name="policySet"
-                   appliesTo="SCA-REST-REFERENCE()" attachTo="REFERENCE('JobStatusRestReference')" orawsp:highId="2"
+                   appliesTo="SCA-REST-REFERENCE()" attachTo="REFERENCE('JobStatusRestReference')" orawsp:highId="4"
                    xml:id="SCA-REST-REFERENCE__REFERENCE__JobStatusRestReference__">
     <wsp:PolicyReference xmlns:wsp="http://www.w3.org/ns/ws-policy"
                          DigestAlgorithm="http://www.w3.org/ns/ws-policy/Sha1Exc"
-                         URI="oracle/http_basic_auth_over_ssl_client_policy" orawsp:status="enabled" orawsp:id="1"/>
+                         URI="oracle/http_basic_auth_over_ssl_client_policy" orawsp:status="enabled" orawsp:id="3">
+      <orawsp:OverrideProperty xmlns:orawsp="http://schemas.oracle.com/ws/2006/01/policy" orawsp:name="csf-key"
+                               orawsp:value="mdm"/>
+      <orawsp:OverrideProperty xmlns:orawsp="http://schemas.oracle.com/ws/2006/01/policy" orawsp:name="csf.map"
+                               orawsp:value="oracle.wsm.security"/>
+    </wsp:PolicyReference>
     <wsp:PolicyReference xmlns:wsp="http://www.w3.org/ns/ws-policy"
                          DigestAlgorithm="http://www.w3.org/ns/ws-policy/Sha1Exc" URI="oracle/log_policy"
-                         orawsp:status="enabled" orawsp:id="2"/>
+                         orawsp:status="enabled" orawsp:id="4"/>
   </sca11:policySet>
   <sca11:policySet xmlns:sca11="http://docs.oasis-open.org/ns/opencsa/sca/200912" name="policySet"
                    appliesTo="SCA-REST-REFERENCE()" attachTo="REFERENCE('ManageMeterJobRestReference')"
-                   orawsp:highId="2" xml:id="SCA-REST-REFERENCE__REFERENCE__ManageMeterJobRestReference__">
+                   orawsp:highId="4" xml:id="SCA-REST-REFERENCE__REFERENCE__ManageMeterJobRestReference__">
     <wsp:PolicyReference xmlns:wsp="http://www.w3.org/ns/ws-policy"
                          DigestAlgorithm="http://www.w3.org/ns/ws-policy/Sha1Exc"
-                         URI="oracle/http_basic_auth_over_ssl_client_policy" orawsp:status="enabled" orawsp:id="1"/>
+                         URI="oracle/http_basic_auth_over_ssl_client_policy" orawsp:status="enabled" orawsp:id="3">
+      <orawsp:OverrideProperty xmlns:orawsp="http://schemas.oracle.com/ws/2006/01/policy" orawsp:name="csf-key"
+                               orawsp:value="mdm"/>
+      <orawsp:OverrideProperty xmlns:orawsp="http://schemas.oracle.com/ws/2006/01/policy" orawsp:name="csf.map"
+                               orawsp:value="oracle.wsm.security"/>
+    </wsp:PolicyReference>
     <wsp:PolicyReference xmlns:wsp="http://www.w3.org/ns/ws-policy"
                          DigestAlgorithm="http://www.w3.org/ns/ws-policy/Sha1Exc" URI="oracle/log_policy"
-                         orawsp:status="enabled" orawsp:id="2"/>
+                         orawsp:status="enabled" orawsp:id="4"/>
   </sca11:policySet>
   <sca11:policySet xmlns:sca11="http://docs.oasis-open.org/ns/opencsa/sca/200912" name="policySet"
-                   appliesTo="SCA-REST-REFERENCE()" attachTo="REFERENCE('MeterGroupRestReference')" orawsp:highId="2"
+                   appliesTo="SCA-REST-REFERENCE()" attachTo="REFERENCE('MeterGroupRestReference')" orawsp:highId="4"
                    xml:id="SCA-REST-REFERENCE__REFERENCE__MeterGroupRestReference__">
     <wsp:PolicyReference xmlns:wsp="http://www.w3.org/ns/ws-policy"
                          DigestAlgorithm="http://www.w3.org/ns/ws-policy/Sha1Exc"
-                         URI="oracle/http_basic_auth_over_ssl_client_policy" orawsp:status="enabled" orawsp:id="1"/>
+                         URI="oracle/http_basic_auth_over_ssl_client_policy" orawsp:status="enabled" orawsp:id="3">
+      <orawsp:OverrideProperty xmlns:orawsp="http://schemas.oracle.com/ws/2006/01/policy" orawsp:name="csf-key"
+                               orawsp:value="mdm"/>
+      <orawsp:OverrideProperty xmlns:orawsp="http://schemas.oracle.com/ws/2006/01/policy" orawsp:name="csf.map"
+                               orawsp:value="oracle.wsm.security"/>
+    </wsp:PolicyReference>
     <wsp:PolicyReference xmlns:wsp="http://www.w3.org/ns/ws-policy"
                          DigestAlgorithm="http://www.w3.org/ns/ws-policy/Sha1Exc" URI="oracle/log_policy"
-                         orawsp:status="enabled" orawsp:id="2"/>
+                         orawsp:status="enabled" orawsp:id="4"/>
   </sca11:policySet>
   <sca11:policySet xmlns:sca11="http://docs.oasis-open.org/ns/opencsa/sca/200912" name="policySet"
-                   appliesTo="SCA-REST-REFERENCE()" attachTo="REFERENCE('MeterJobRestReference')" orawsp:highId="2"
+                   appliesTo="SCA-REST-REFERENCE()" attachTo="REFERENCE('MeterJobRestReference')" orawsp:highId="4"
                    xml:id="SCA-REST-REFERENCE__REFERENCE__MeterJobRestReference__">
     <wsp:PolicyReference xmlns:wsp="http://www.w3.org/ns/ws-policy"
                          DigestAlgorithm="http://www.w3.org/ns/ws-policy/Sha1Exc"
-                         URI="oracle/http_basic_auth_over_ssl_client_policy" orawsp:status="enabled" orawsp:id="1"/>
+                         URI="oracle/http_basic_auth_over_ssl_client_policy" orawsp:status="enabled" orawsp:id="3">
+      <orawsp:OverrideProperty xmlns:orawsp="http://schemas.oracle.com/ws/2006/01/policy" orawsp:name="csf-key"
+                               orawsp:value="mdm"/>
+      <orawsp:OverrideProperty xmlns:orawsp="http://schemas.oracle.com/ws/2006/01/policy" orawsp:name="csf.map"
+                               orawsp:value="oracle.wsm.security"/>
+    </wsp:PolicyReference>
     <wsp:PolicyReference xmlns:wsp="http://www.w3.org/ns/ws-policy"
                          DigestAlgorithm="http://www.w3.org/ns/ws-policy/Sha1Exc" URI="oracle/log_policy"
-                         orawsp:status="enabled" orawsp:id="2"/>
+                         orawsp:status="enabled" orawsp:id="4"/>
   </sca11:policySet>
   <sca11:policySet xmlns:sca11="http://docs.oasis-open.org/ns/opencsa/sca/200912" name="policySet"
-                   appliesTo="SCA-REST-REFERENCE()" attachTo="REFERENCE('QueryMeterJobRestReference')" orawsp:highId="2"
+                   appliesTo="SCA-REST-REFERENCE()" attachTo="REFERENCE('QueryMeterJobRestReference')" orawsp:highId="4"
                    xml:id="SCA-REST-REFERENCE__REFERENCE__QueryMeterJobRestReference__">
     <wsp:PolicyReference xmlns:wsp="http://www.w3.org/ns/ws-policy"
                          DigestAlgorithm="http://www.w3.org/ns/ws-policy/Sha1Exc"
-                         URI="oracle/http_basic_auth_over_ssl_client_policy" orawsp:status="enabled" orawsp:id="1"/>
+                         URI="oracle/http_basic_auth_over_ssl_client_policy" orawsp:status="enabled" orawsp:id="3">
+      <orawsp:OverrideProperty xmlns:orawsp="http://schemas.oracle.com/ws/2006/01/policy" orawsp:name="csf-key"
+                               orawsp:value="mdm"/>
+      <orawsp:OverrideProperty xmlns:orawsp="http://schemas.oracle.com/ws/2006/01/policy" orawsp:name="csf.map"
+                               orawsp:value="oracle.wsm.security"/>
+    </wsp:PolicyReference>
     <wsp:PolicyReference xmlns:wsp="http://www.w3.org/ns/ws-policy"
                          DigestAlgorithm="http://www.w3.org/ns/ws-policy/Sha1Exc" URI="oracle/log_policy"
-                         orawsp:status="enabled" orawsp:id="2"/>
+                         orawsp:status="enabled" orawsp:id="4"/>
   </sca11:policySet>
 </orawsp:wsm-assembly>

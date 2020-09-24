@@ -3,7 +3,7 @@
    <Fault>
       <severity>warning</severity>
       <loc>/*[namespace-uri()='http://docs.oasis-open.org/wsbpel/2.0/process/executable'][local-name()='process']</loc>
-      <line>39</line>
+      <line>43</line>
       <col/>
       <file>BPEL/ConnectCommandBPEL.bpel</file>
       <name>BPEL/ConnectCommandBPEL.bpel</name>
